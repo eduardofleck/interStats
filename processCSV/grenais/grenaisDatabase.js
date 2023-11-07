@@ -13,26 +13,13 @@ const booleanTrueValues = ["TRUE", "1", "YES", "ANO"];
 const booleanFalseValues = ["FALSE", "0", "NO", "NE"];
 
 (async function () {
-  let content = null;
-  //Options BR or COPA
-  let processBRorCdB = "COPA";
-  if (processBRorCdB === "BR") {
-    content = await fs.readFile(`./brasileiro.csv`);
-  } else if (processBRorCdB === "COPA") {
-    content = await fs.readFile(`./copaDoBrasil.csv`);
-  }
+  let content = await fs.readFile(`./grenais.csv`, "utf-8");
 
   // Parse the CSV content
   const records = parse(content);
 
-  //console.log(records.slice(0, 2));
-
-  //TODO
-  // arbitro
-  // publico
-  // publico_max
-  // tecnico_mandante
-  // tecnico_visitante
+  //HEADER
+  //NUMERO,,Placar,TIME_MANDANTE,PLACAR_MANDANTE,GOLS_MANDANTE,GOLS_PENALTI_MANDANTE,PLACAR2,TIME_VISITANTE,PLACAR_VISITANTE,GOLS_VISITANTE,GOLS_PENALTI_VISITANTE,RODADA,PUBLICO,CAMPEONATO_ID,CAMPEONATO_DESCRICAO,ESTADIO,SEM_TORCIDA,Gols,OBS,OBS2,
 
   //This is not a mapping for the CSV
   const tableAttributes = [
@@ -68,6 +55,11 @@ const booleanFalseValues = ["FALSE", "0", "NO", "NE"];
       column: "GOLS_MANDANTE",
     },
     {
+      name: "penaltiesScoreTeamHome",
+      active: true,
+      column: "GOLS_PENALTI_MANDANTE",
+    },
+    {
       name: "idTeamaway",
       active: true,
       column: "TIME_VISITANTE",
@@ -76,6 +68,11 @@ const booleanFalseValues = ["FALSE", "0", "NO", "NE"];
       name: "scoreTeamaway",
       active: true,
       column: "GOLS_VISITANTE",
+    },
+    {
+      name: "penaltiesScoreTeamAway",
+      active: true,
+      column: "GOLS_PENALTI_VISITANTE",
     },
     {
       name: "gameDate",
@@ -88,16 +85,25 @@ const booleanFalseValues = ["FALSE", "0", "NO", "NE"];
   //Array of strings that holds the CSV
   var scriptLines = [];
   var stadiumsNotFound = [];
+  var roundsNotFound = [];
+
   records.slice(1).forEach((record) => {
     // Convert columns from record to a object with named attributes
     // HERE US THE MAPPING FOR CSV
-    let gameCsvRecords = createGameCsvRecords(record, processBRorCdB);
+    let gameCsvRecords = createGameCsvRecords(record);
 
+    let roundId = "null"; //Stadium can be null if not found
+    console.log(gameCsvRecords.RODADA);
     championshipRoundsIds.forEach((round) => {
       if (round.synonymous.includes(gameCsvRecords.RODADA)) {
-        gameCsvRecords.RODADA = round.id;
+        roundId = round.id;
       }
     });
+
+    if (roundId === "null" && gameCsvRecords.RODADA.trim() !== "")
+      roundsNotFound.push(gameCsvRecords.RODADA.trim());
+
+    gameCsvRecords.RODADA = roundId;
 
     let stadiumId = "null"; //Stadium can be null if not found
     stadiumsIds.forEach((stadium) => {
@@ -111,10 +117,9 @@ const booleanFalseValues = ["FALSE", "0", "NO", "NE"];
 
     gameCsvRecords.ESTADIO = stadiumId;
 
-    gameCsvRecords.ANO_CAMPEONATO = getChampionshipId(
-      gameCsvRecords.ANO_CAMPEONATO,
-      processBRorCdB
-    );
+    // gameCsvRecords.ANO_CAMPEONATO = getChampionshipId(
+    //   gameCsvRecords.ANO_CAMPEONATO
+    // );
 
     //Make team home has ID
     teamsIds.forEach((team) => {
@@ -135,6 +140,11 @@ const booleanFalseValues = ["FALSE", "0", "NO", "NE"];
     if (gameCsvRecords.GOLS_MANDANTE.length === 0)
       gameCsvRecords.GOLS_MANDANTE = "null";
     if (gameCsvRecords.PUBLICO.length === 0) gameCsvRecords.PUBLICO = "null";
+
+    if (gameCsvRecords.GOLS_PENALTI_VISITANTE.length === 0)
+      gameCsvRecords.GOLS_PENALTI_VISITANTE = "null";
+    if (gameCsvRecords.GOLS_PENALTI_MANDANTE.length === 0)
+      gameCsvRecords.GOLS_PENALTI_MANDANTE = "null";
 
     let line = "INSERT INTO gameStaging (";
     tableAttributes.forEach((attribute) => {
@@ -166,7 +176,7 @@ const booleanFalseValues = ["FALSE", "0", "NO", "NE"];
   });
 
   fs.writeFile(
-    `./transferMarket/output/${processBRorCdB}/database_insert.txt`,
+    `./grenais/output/database_insert.txt`,
     scriptLines.join("\n"),
     (err) => {
       if (err) {

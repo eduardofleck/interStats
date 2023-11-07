@@ -1,5 +1,5 @@
 const stadiumsIds = [
-  { id: "1", synonymous: ["Estádio Beira-Rio"] },
+  { id: "1", synonymous: ["Estádio Beira-Rio", "Beira-Rio"] },
   { id: "2", synonymous: ["Allianz Parque"] },
   { id: "3", synonymous: ["Altos da Glória"] },
   { id: "4", synonymous: ["Arena Acreana"] },
@@ -14,7 +14,7 @@ const stadiumsIds = [
   { id: "13", synonymous: ["Arena da Baixada"] },
   { id: "14", synonymous: ["Arena das Dunas"] },
   { id: "15", synonymous: ["Arena de Pernambuco"] },
-  { id: "16", synonymous: ["Arena do Grêmio"] },
+  { id: "16", synonymous: ["Arena do Grêmio", "Arena"] },
   { id: "17", synonymous: ["Campus Realzale Gazteak"] },
   { id: "18", synonymous: ["Estadio Municipal Passo das Emas"] },
   { id: "19", synonymous: ["Estadio Parque Maracaná"] },
@@ -56,7 +56,14 @@ const stadiumsIds = [
   { id: "52", synonymous: ["Estádio Estadual Lourival Baptista"] },
   { id: "53", synonymous: ["Estádio Evandro Almeida"] },
   { id: "54", synonymous: ["Estádio Flamarion Vasconcelos"] },
-  { id: "55", synonymous: ["Estádio Francisco Novelletto Neto"] },
+  {
+    id: "55",
+    synonymous: [
+      "Estádio Francisco Novelletto Neto",
+      "Estádio passo d'areia",
+      "São José",
+    ],
+  },
   { id: "56", synonymous: ["Estádio Francisco Stédile"] },
   { id: "57", synonymous: ["Estádio Francisco Vasques"] },
   {
@@ -152,8 +159,17 @@ const stadiumsIds = [
   { id: "134", synonymous: ["Estádio Nacional de Brasília Mané Garrincha"] },
   { id: "135", synonymous: ["Estádio Nilton Santos"] },
   { id: "136", synonymous: ["Estádio Olimpico Albino Turbay"] },
-  { id: "137", synonymous: ["Estádio Olímpico Colosso da Lagoa"] },
-  { id: "138", synonymous: ["Estádio Olímpico Monumental"] },
+  {
+    id: "137",
+    synonymous: [
+      "Estádio Olímpico Colosso da Lagoa",
+      "Colosso da Lagoa",
+      "Colosso da Lagoa – Erechim",
+      "Colosso da Lagoa, em Erechim",
+      "Colosso da Lagoa, Erechim",
+    ],
+  },
+  { id: "138", synonymous: ["Estádio Olímpico Monumental", "Olímpico"] },
   { id: "139", synonymous: ["Estádio Olímpico Municipal Gilberto Mestrinho"] },
   { id: "140", synonymous: ["Estádio Olímpico Nilton Santos"] },
   { id: "141", synonymous: ["Estádio Olímpico Pedro Ludovico Teixeira"] },
@@ -199,6 +215,42 @@ const stadiumsIds = [
   { id: "181", synonymous: ["Neo Química Arena"] },
   { id: "182", synonymous: ["Os Pioneiros"] },
   { id: "183", synonymous: ["Pinheirão"] },
+  {
+    id: "185",
+    synonymous: [
+      "Estádio Centenário",
+      "Centenário",
+      "Centenário (Caxias do Sul)",
+    ],
+  },
+  { id: "186", synonymous: ["Atílio Paiva", "Atílio Paiva (Rivera, Uruguai)"] },
+  {
+    id: "187",
+    synonymous: [
+      "Montanha dos Vinhedos",
+      "Montanha",
+      "Montanha dos Vinhedos – Bento Gonçalves",
+    ],
+  },
+  { id: "188", synonymous: ["Estádio dos Eucaliptos", "Eucaliptos"] },
+  {
+    id: "189",
+    synonymous: ["Estádio da Baixada Rubra", "Baixada Rubra – Caxias do Sul"],
+  },
+  {
+    id: "190",
+    synonymous: ["Estádio da Chácara dos Eucaliptos", "Chácara dos Eucaliptos"],
+  },
+  {
+    id: "191",
+    synonymous: ["Estádio da Chácara das Camélias", "Chácara das Camélias"],
+  },
+  { id: "192", synonymous: ["Campo da Escola de Guerra", "Escola Guerra"] },
+  { id: "193", synonymous: ["Estádio da Baixada", "Baixada"] },
+  { id: "194", synonymous: ["Estádio da Timbaúva", "Timbaúva"] },
+  { id: "195", synonymous: ["Estádio Tiradentes", "Tiradentes"] },
+  { id: "196", synonymous: ["Estádio Aldo Dapuzzo", "Rio Grande"] },
+  { id: "197", synonymous: ["Estádio dos Plátanos", "Santa Cruz"] },
 ];
 
 module.exports = stadiumsIds;
